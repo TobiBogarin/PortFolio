@@ -185,6 +185,7 @@ body {
   position: relative;
   display: inline-block;
   margin-bottom: 2rem;
+  margin-top: calc(var(--nav-height) + 20px);
 }
 
 .profile-image {
