@@ -1,6 +1,8 @@
 /* Transformando completamente el diseño a tema oscuro elegante con violeta neón */
 /* Variables CSS - Tema Oscuro Elegante */
 :root {
+  
+  --nav-height: 80px; /* Altura fija de la barra de navegación */
   --primary-color: #8b5cf6; /* Violeta principal */
   --primary-dark: #7c3aed; /* Violeta más oscuro */
   --secondary-color: #a855f7; /* Violeta secundario */
@@ -74,6 +76,7 @@ body {
 }
 
 .nav-container {
+  height: var(--nav-height);
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
@@ -153,6 +156,9 @@ body {
 
 /* Hero Section */
 .hero {
+  min-height: calc(100vh - var(--nav-height));
+  padding-top: var(--nav-height);
+  box-sizing: border-box;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -1026,10 +1032,10 @@ body {
 @media (max-width: 768px) {
   .nav-menu {
     position: fixed;
-    top: 80px;
+    top: var(--nav-height);
     left: -100%;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - var(--nav-height));
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     flex-direction: column;
