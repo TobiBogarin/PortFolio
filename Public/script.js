@@ -155,46 +155,34 @@ if (heroTitle) {
 
 // Efecto de partículas en el cursor (opcional)
 document.addEventListener("mousemove", (e) => {
-  const cursor = document.createElement("div")
-  cursor.className = "cursor-particle"
-  cursor.style.cssText = `
-        position: fixed;
-        width: 4px;
-        height: 4px;
-        background: var(--secondary-color);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        left: ${e.clientX}px;
-        top: ${e.clientY}px;
-        opacity: 0.7;
-        animation: cursorFade 0.5s ease-out forwards;
+  // Crear partícula solo ocasionalmente para mejor rendimiento
+  if (Math.random() > 0.8) {
+    const cursor = document.createElement("div")
+    cursor.className = "cursor-particle"
+    cursor.style.cssText = `
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: var(--neon-purple);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      left: ${e.clientX}px;
+      top: ${e.clientY}px;
+      opacity: 0.8;
+      box-shadow: 0 0 10px var(--neon-purple);
+      animation: cursorFade 1s ease-out forwards;
     `
 
-  document.body.appendChild(cursor)
+    document.body.appendChild(cursor)
 
-  setTimeout(() => {
-    cursor.remove()
-  }, 500)
+    setTimeout(() => {
+      cursor.remove()
+    }, 1000)
+  }
 })
 
-// Agregar animación CSS para partículas del cursor
-const style = document.createElement("style")
-style.textContent = `
-    @keyframes cursorFade {
-        0% {
-            transform: scale(1);
-            opacity: 0.7;
-        }
-        100% {
-            transform: scale(0);
-            opacity: 0;
-        }
-    }
-`
-document.head.appendChild(style)
-
-// Contador animado para años de experiencia
+// Contador animado mejorado
 const animateCounter = (element, target, duration = 2000) => {
   let start = 0
   const increment = target / (duration / 16)
@@ -210,18 +198,21 @@ const animateCounter = (element, target, duration = 2000) => {
   }, 16)
 }
 
-// Aplicar contador si existe elemento con clase 'counter'
+// Aplicar contadores cuando sean visibles
 document.querySelectorAll(".counter").forEach((counter) => {
   const target = Number.parseInt(counter.getAttribute("data-target"))
 
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        animateCounter(counter, target)
-        counterObserver.unobserve(counter)
-      }
-    })
-  })
+  const counterObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounter(counter, target)
+          counterObserver.unobserve(counter)
+        }
+      })
+    },
+    { threshold: 0.5 },
+  )
 
   counterObserver.observe(counter)
 })
@@ -237,4 +228,37 @@ window.addEventListener("load", () => {
   }
 })
 
-console.log("🚀 Portfolio de Tobias Emanuel Bogarin cargado correctamente!")
+// Agregar animación CSS para partículas del cursor
+const style = document.createElement("style")
+style.textContent = `
+  @keyframes cursorFade {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+  
+  /* Efecto de brillo en hover para elementos interactivos */
+  .btn:hover, .project-link:hover, .tech-item:hover {
+    filter: brightness(1.1);
+  }
+  
+  /* Animación de escritura mejorada */
+  .typing-cursor::after {
+    content: '|';
+    color: var(--neon-purple);
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+`
+document.head.appendChild(style)
+
+console.log("🚀 Portfolio elegante de Tobias Emanuel Bogarin - Team Leader cargado correctamente!")
